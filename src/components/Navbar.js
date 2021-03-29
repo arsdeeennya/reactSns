@@ -7,6 +7,13 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import { FiLogOut } from "react-icons/fi";
 import { withCookies } from "react-cookie";
+import {
+  START_FETCH,
+  FETCH_SUCCESS,
+  ERROR_CATCHED,
+  INPUT_EDIT,
+  TOGGLE_MODE,
+} from "./actionTypes";
 
 const useStyles = makeStyles((theme) => ({
   bg: {
