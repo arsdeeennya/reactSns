@@ -3,15 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Route, BrowserRouter } from "react-router-dom";
+import Login from "./components/Login";
+import { CookiesProvider } from "react-cookie";
 
-ReactDOM.render(
+const routing = (
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <BrowserRouter>　
+      {/* providerから提供されるクッキーの情報をpropsで受け取る */}
+      <CookiesProvider>
+        <Route exact path="/" component={Login} />
+        <Route exact path="/profiles" component={App} />
+      </CookiesProvider>
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+ReactDOM.render(
+  routing, document.getElementById('root')
+);
+
 reportWebVitals();
