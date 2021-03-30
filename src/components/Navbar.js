@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ApiContext } from "../context/ApiContext";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -7,13 +8,6 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import { FiLogOut } from "react-icons/fi";
 import { withCookies } from "react-cookie";
-import {
-  START_FETCH,
-  FETCH_SUCCESS,
-  ERROR_CATCHED,
-  INPUT_EDIT,
-  TOGGLE_MODE,
-} from "./actionTypes";
 
 const useStyles = makeStyles((theme) => ({
   bg: {
@@ -26,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = (props) => {
   const classes = useStyles();
+  const { askList, profiles } = useContext(ApiContext);
   const Logout = () => (event) => {
     props.cookies.remove("current-token");
     window.location.href = "/";
@@ -38,10 +33,19 @@ const Navbar = (props) => {
         </Typography>
         <Badge
           className={classes.bg}
-          badgeContent={3}
+          badgeContent={
+            askList.filter((ask) => {
+              return (
+                ask.approved === false &&
+                profiles.filter((item) => {
+                  return item.userPro === ask.askFrom;
+                })[0]
+              );
+            }).length
+          }
           color="secondary"
         >
-        <NotificationsIcon />
+          <NotificationsIcon />
         </Badge>
         <button className="signOut" onClick={Logout()}>
           <FiLogOut />
